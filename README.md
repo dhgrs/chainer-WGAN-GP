@@ -1,7 +1,8 @@
 # WGAN-GP
 A Chainer implementation of WGAN-GP.
 
-### WGAN-GP with MNIST(with GPU #n)
+# Usage
+## WGAN-GP with MNIST(with GPU #n)
 ```
 python wgangp_mnist.py -g n
 ```
