@@ -1,5 +1,5 @@
 # WGAN-GP
-A Chainer implementation of WGAN-GP.
+A Chainer implementation of [Improved Training of Wasserstein GANs](https://arxiv.org/abs/1704.00028).
 
 # Usage
 ## WGAN-GP with MNIST(with GPU #n)
