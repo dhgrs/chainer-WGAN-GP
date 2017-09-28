@@ -114,6 +114,18 @@ class WGANUpdater(training.StandardUpdater):
         chainer.reporter.report({'loss/generator': loss_generator})
 
 
+class WeightClipping(object):
+    name = 'WeightClipping'
+
+    def __init__(self, threshold):
+        self.threshold = threshold
+
+    def __call__(self, opt):
+        for param in opt.target.params():
+            xp = chainer.cuda.get_array_module(param.data)
+            param.data = xp.clip(param.data, -self.threshold, self.threshold)
+
+
 def main():
     parser = argparse.ArgumentParser(description='WGAN')
     parser.add_argument('--batchsize', '-b', type=int, default=100,
@@ -142,6 +154,7 @@ def main():
 
     opt_c = chainer.optimizers.Adam(1e-4, beta1=0.5, beta2=0.9)
     opt_c.setup(critic)
+    opt_c.add_hook(WeightClipping(0.1))
 
     train, _ = chainer.datasets.get_mnist(withlabel=False, ndim=3)
     train_iter = chainer.iterators.SerialIterator(train, args.batchsize)
